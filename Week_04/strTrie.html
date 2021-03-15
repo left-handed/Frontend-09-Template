@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>字典树</title>
+</head>
+<body>
+  <script>
+    let $ = new Symbol("$");
+    class Trie {
+      constructor () {
+        this.root = Object.create(null);
+      }
+      
+      /**
+      * 写入数据
+      **/
+      inster(word) {
+        let node = this.root;
+        for (const k of word) {
+          if (!node[k]) {
+            node[k] = Object.create(null);
+          }
+          node = node[k];
+        }
+        if (!($ in node)) {
+          node[$] = 0;
+        }
+        node[$]++;
+      }
+
+      most() {
+        let max = 0;
+      }
+    }
+
+    /*
+    * 随机生成字符串
+    */
+    function randomWord() {
+      var s = '';
+      for (let i = 0; i < 100000; i++) {
+        s += String.formCharCode(Math.random() * 26 + "a" + charCodeAt(0));
+      }
+      return s;
+    }
+    let trie = new Trie();
+    for (let j = 0; j < 100000; j++) {
+      trie.inster(randomWord(4));
+    }
+  </script>
+</body>
+</html>
