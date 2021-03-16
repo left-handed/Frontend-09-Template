@@ -8,7 +8,7 @@
 </head>
 <body>
   <script>
-    let $ = new Symbol("$");
+    let $ = Symbol("$");
     class Trie {
       constructor () {
         this.root = Object.create(null);
@@ -31,18 +31,33 @@
         node[$]++;
       }
 
+      /**
+       * 查找最大值
+       **/
       most() {
         let max = 0;
+        let maxWord = null;
+        let visit = (node, word) => {
+          if (node[$] && node[$] > max) {
+            max = node[$];
+            maxWord = word;
+          }
+          for (let p in node) {
+            visit(node[p], word + p);
+          }
+        }
+        visit(this.root, '');
+        console.log(maxWord, max);
       }
     }
 
     /*
     * 随机生成字符串
     */
-    function randomWord() {
+    function randomWord(length) {
       var s = '';
-      for (let i = 0; i < 100000; i++) {
-        s += String.formCharCode(Math.random() * 26 + "a" + charCodeAt(0));
+      for (let i = 0; i < length; i++) {
+        s += String.fromCharCode(Math.random() * 26 + "a".charCodeAt(0));
       }
       return s;
     }
