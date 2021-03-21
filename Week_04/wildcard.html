@@ -43,13 +43,13 @@
 
         let reg = new RegExp(subPattern.replace(/\?/g, "[\\s\\S]"), "g");
         reg.lastIndex = lastIndex;
-        // if (!reg.exec(source)) {
-        //   return false;
-        // }
+        if (!reg.exec(source)) {
+          return false;
+        }
         lastIndex = reg.lastIndex;
       }
 
-      for (let l = 0; l < source.length - lastIndex && pattern[pattern.length - 1] !== "*"; l++) {
+      for (let l = 0; l < source.length - lastIndex && pattern[pattern.length - l] !== "*"; l++) {
         if (pattern[pattern.length - l] !== source[source.length - l] && pattern[pattern.length - l] !== "?") {
           return false;
         }
