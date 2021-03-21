@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>wildcard</title>
+</head>
+<body>
+  <script>
+    function find(source, pattern) {
+      let starCont = 0;
+      for (let i = 0; i < pattern.length; i++) {
+        if (pattern[i] === '*') {
+          starCont++;
+        }
+      }
+      if (starCont === 0) {
+        for (let k = 0; k < pattern.length; k++) {
+          if (source[k] !== pattern[k] && pattern[k] !== '?') {
+            return false;
+          }
+        }
+        return;
+      }
+
+      let j = 0;
+      let lastIndex = 0;
+      for (j = 0; pattern[j] !== "*"; j++) {
+        if(pattern[j] !== source[j] && pattern[j] !== '?') {
+          return false;
+        }
+      }
+      lastIndex = j;
+      
+      for (let p = 0; p < starCont - 1; p++) {
+        j++;
+        let subPattern = '';
+        while(pattern[j] !== '*') {
+          subPattern += pattern[j];
+          j++;
+        }
+
+        let reg = new RegExp(subPattern.replace(/\?/g, "[\\s\\S]"), "g");
+        reg.lastIndex = lastIndex;
+        // if (!reg.exec(source)) {
+        //   return false;
+        // }
+        lastIndex = reg.lastIndex;
+      }
+
+      for (let l = 0; l < source.length - lastIndex && pattern[pattern.length - 1] !== "*"; l++) {
+        if (pattern[pattern.length - l] !== source[source.length - l] && pattern[pattern.length - l] !== "?") {
+          return false;
+        }
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>
