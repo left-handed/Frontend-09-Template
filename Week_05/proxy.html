@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>proxy</title>
+</head>
+<input type="range" id="R" min="0" max="255"/>
+<input type="range" id="G" min="0" max="255"/>
+<input type="range" id="B" min="0" max="255"/>
+<div id="color-box" style="width: 100px; height: 100px; "></div>
+<div id="color-content"></div>
+<body>
+  <script>
+    let object = {
+      r: 0,
+      g: 0,
+      b: 0
+    };
+
+    let callbacks = new Map;
+    let reactivitys = new Map;
+    let usedReactivitys = [];
+    let op = reactive(object);
+    let R = document.getElementById('R');
+    let G = document.getElementById('G');
+    let B = document.getElementById('B');
+    let colorBox = document.getElementById('color-box');
+    let content = document.getElementById('color-content');
+    effect(() => {
+      colorBox.style.backgroundColor = `rgb(${op.r}, ${op.g}, ${op.b})`;
+      content.innerText = `rgb(${op.r}, ${op.g}, ${op.b})`;
+    }) 
+
+    R.addEventListener('input', e => {
+      op.r = e.target.value;
+    })
+    G.addEventListener('input', e => {
+      op.g = e.target.value;
+    })
+    B.addEventListener('input', e => {
+      op.b = e.target.value;
+    })
+
+    function effect(callback) {
+      usedReactivitys = [];
+      callback();
+      for (let reactivity of usedReactivitys) {
+        if (!callbacks.has(reactivity[0])) {
+          callbacks.set(reactivity[0], new Map());
+        }
+        if (!callbacks.get(reactivity[0]).has(reactivity[1])) {
+          callbacks.get(reactivity[0]).set(reactivity[1], []);
+        }
+        callbacks.get(reactivity[0]).get(reactivity[1]).push(callback);
+      }
+    }
+
+    function reactive (object) {
+      if (reactivitys.has(object)) {
+        return reactivitys.get(object);
+      }
+      let proxy = new Proxy(object, {
+        set(obj, prop, val) {
+          obj[prop] = val;
+          if (callbacks.has(obj)) {
+            if (callbacks.get(obj).get(prop)) {
+              for (let callback of callbacks.get(obj).get(prop)) {
+                callback();
+              }
+            }
+          }
+          return obj[prop];
+        },
+
+        get(obj, prop, val) {
+          usedReactivitys.push([obj, prop]);
+          if (typeof obj[prop] === 'object') {
+            return reactive(obj[prop]);
+          }
+          return obj[prop];
+        }
+      })
+      reactivitys.set(object, proxy)
+      return proxy;
+    }
+  </script>
+</body>
+</html>
