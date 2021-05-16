@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+  }
+
+  .content-box {
+    font-size: 50px;
+    line-height: 100px;
+    background-color: pink;
+  }
+
+  .text1, .text2 {
+    line-height: 70px;
+    width: 100px;
+    height: 150px;
+    background-color: aqua;
+    display: inline-block;
+    vertical-align: text-top;
+    clear: left;
+  }
+
+  .text2 {
+    vertical-align: text-bottom;
+  }
+
+  .link-content{
+    width: 1px;
+    height: 1px;
+    overflow: visible;
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  .link {
+    width: 1000px;
+    height: 1px;
+    background-color: red;
+  }
+</style>
+<body>
+  <div class="content-box">
+    <div class="link-content">
+      <div class="link">
+      </div>
+    </div>
+    <span>Hoole good 中文</span>
+    <div class="text1">
+      c<br/>b
+    </div>
+    <div class="text2">
+      c<br/>b
+    </div>
+  </div>
+</body>
+</html>
