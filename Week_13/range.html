@@ -7,11 +7,19 @@
   <title>range</title>
 </head>
 <body>
-  <div id="a">123<span style="background-color: pink;">45678</span>aaaaaaaaa</div>
+  <div id="a"><span>1</span><a href="javascrice:void(0)">2</a><i>3</i><span>4</span></div>
   <script>
     let range = new Range();
-    range.setStart(document.getElementById('a').childNodes[1].childNodes[0], 0);
-    range.setEnd(document.getElementById('a').childNodes[1].childNodes[0], 3);
+    let span = document.createElement('span');
+    span.innerHTML = 'jinze';
+    range.selectNodeContents(document.getElementById('a'));
+    let foagment = range.extractContents();
+    let len = foagment.childNodes.length;
+    while (len-- > 0) {
+      console.log(foagment.childNodes[len]);
+      foagment.appendChild(foagment.childNodes[len]);
+    }
+    range.insertNode(foagment)
   </script>
 </body>
 </html>
