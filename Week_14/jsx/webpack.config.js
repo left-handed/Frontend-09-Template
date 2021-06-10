@@ -1,6 +1,11 @@
+var path = require('path');
 module.exports = {
   mode: 'development',
   entry: './main.js',
+  devServer: {
+    compress: true,
+    port: 9000
+  },
   module: {
     rules: [
       {

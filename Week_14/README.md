@@ -16,3 +16,6 @@
     - created -> mount -> JSchange/set -> render/update -> distroyed
     - mount -> User Input -> render/update->created || distroyed
   - Children 树形结构
+  - transition
+    - ease-out 进入动画
+    - ease-in 退出动画
