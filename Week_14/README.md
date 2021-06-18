@@ -19,3 +19,5 @@
   - transition
     - ease-out 进入动画
     - ease-in 退出动画
+  - Event
+    - clientX\clientY 浏览器可渲染区域坐标

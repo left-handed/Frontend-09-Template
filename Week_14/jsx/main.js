@@ -18,14 +18,46 @@ class Carousel extends Component{
       divImg.style.backgroundImage = `url(${item})`;
       this.root.appendChild(divImg);
     }
-    let index = 0;
+    this.root.addEventListener('mousedown', (event) => {
+      let xStart = event.clientX;
+      let childArr = this.root.children;
+      let move = (ev) => {
+        let xEnd = ev.clientX;
+        let x = xEnd - xStart;
+        for (const child of childArr) {
+          child.style.transtion = 'none';
+          child.style.transform = `translateX(${x}px)`
+        }
+      }
+      let up = () => {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', up);
+      }
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', up);
+    })
+
+    /*let currentIndex = 0;
     setInterval(() => {
       let childs = this.root.children;
-      ++index;
-      for (const child of childs) {
-        child.style.transform = `translateX(-${index * 100}%)`
-      }
-    }, 3000)
+      let nextIndex = (currentIndex + 1) % childs.length;
+      let current = childs[currentIndex];
+      let nextCurrent = childs[nextIndex];
+      nextCurrent.style.transtion = "none";
+      nextCurrent.style.transform = `translateX(${100 - nextIndex * 100}%)`;
+      
+      setTimeout(() => {
+        nextCurrent.style.transtion = "";
+        current.style.transform = `translateX(${-100 - currentIndex * 100}%)`;
+        nextCurrent.style.transform = `translateX(${- nextIndex * 100}%)`;
+      }, 16);
+
+      currentIndex = nextIndex;
+
+      // for (const child of childs) {
+      //   child.style.transform = `translateX(-${key * 100}%)`
+      // }
+    }, 3000)*/
     return this.root;
   }
 
