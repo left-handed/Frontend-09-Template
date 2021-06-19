@@ -11,25 +11,34 @@ class Carousel extends Component{
 
   render () {
     this.root = document.createElement('div');
-    this.root.classList = 'img-content'
+    this.root.classList = 'img-content';
     for (const item of this.attributes.src) {
       let divImg = document.createElement('div');
       divImg.classList = 'img-item';
       divImg.style.backgroundImage = `url(${item})`;
       this.root.appendChild(divImg);
     }
+    let position = 0;
     this.root.addEventListener('mousedown', (event) => {
-      let xStart = event.clientX;
+      console.log('down');
       let childArr = this.root.children;
-      let move = (ev) => {
-        let xEnd = ev.clientX;
-        let x = xEnd - xStart;
+      let xStart = event.clientX;
+      let w = childArr[0].getClientRects()[0].width
+      let move = (event) => {
+        let x = event.clientX - xStart;
         for (const child of childArr) {
-          child.style.transtion = 'none';
-          child.style.transform = `translateX(${x}px)`
+          child.style.transition = 'none';
+          child.style.transform = `translateX(${- position * w + x}px)`;
         }
       }
-      let up = () => {
+      let up = (event) => {
+        console.log('up');
+        let x = event.clientX - xStart;
+        position = position - Math.round(x / w);
+        for (const child of childArr) {
+          child.style.transition = '';
+          child.style.transform = `translateX(${- position * w}px)`;
+        }
         document.removeEventListener('mousemove', move);
         document.removeEventListener('mouseup', up);
       }
@@ -76,4 +85,3 @@ let imgArr = [
 let jsx = <Carousel src={imgArr}/>
 
 jsx.mountTo(document.body)
-
