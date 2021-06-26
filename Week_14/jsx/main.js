@@ -26,19 +26,29 @@ class Carousel extends Component{
       let w = childArr[0].getClientRects()[0].width
       let move = (event) => {
         let x = event.clientX - xStart;
-        for (const child of childArr) {
-          child.style.transition = 'none';
-          child.style.transform = `translateX(${- position * w + x}px)`;
+        let current = position - ((x - x % w) / w);  // *****
+        for (const offset of [-1, 0, 1]) {
+          let pos = offset + current;
+          pos = (pos + childArr.length) % childArr.length; // 取余
+          childArr[pos].style.transition = 'none';
+          childArr[pos].style.transform = `translateX(${-pos * w + offset * w + x % w}px)`;
         }
       }
       let up = (event) => {
         console.log('up');
         let x = event.clientX - xStart;
         position = position - Math.round(x / w);
-        for (const child of childArr) {
-          child.style.transition = '';
-          child.style.transform = `translateX(${- position * w}px)`;
+        for (const offset of [0, - Math.sign(Math.round(x / w) - x + 250 * Math.sign(x))]) {
+          let pos = offset + position;
+          pos = (pos + childArr.length) % childArr.length; // 取余
+          childArr[pos].style.transition = '';
+          childArr[pos].style.transform = `translateX(${-pos * w + offset * w}px)`;
         }
+
+        // for (const child of childArr) {
+        //   child.style.transition = '';
+        //   child.style.transform = `translateX(${- position * w}px)`;
+        // }
         document.removeEventListener('mousemove', move);
         document.removeEventListener('mouseup', up);
       }
