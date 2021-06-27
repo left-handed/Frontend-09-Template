@@ -15,4 +15,7 @@
   3. resume (重新开始)
   4. reset (重启)
 #### 手势
-  
+  1. mousedown事件 event.button 可以查看鼠标键值
+  2. mousemove事件 event.buttons 键值是二进制表示按下的键
+  3. 使用Object.create(null) 创建对象可以避免对象原生属性的干扰
+  4. New event()
