@@ -15,8 +15,8 @@
     range.selectNodeContents(document.getElementById('a'));
     let foagment = range.extractContents();
     let len = foagment.childNodes.length;
+    console.log(foagment);
     while (len-- > 0) {
-      console.log(foagment.childNodes[len]);
       foagment.appendChild(foagment.childNodes[len]);
     }
     range.insertNode(foagment)
