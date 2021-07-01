@@ -1,8 +1,15 @@
 var assert = require('assert');
-var add = require('../test/parser-test.js')
-// import {add, mul} from '../add.js';
-describe('add test', function() {
-  it('is should be 3', function() {
-    assert.equal(add(1, 3), 4);
+import {parseHTML} from '../src/parser.js'
+describe('parser html', function() {
+  it('<a></a>', function() {
+    let tree = parseHTML("<a></a>");
+    assert.equal(tree.childern[0].tagName, "a");
+    assert.equal(tree.childern[0].childern.length, 0);
+  });
+  it('<a href="www.baidu.com"></a>', function() {
+    let tree = parseHTML('<a href="www.baidu.com"></a>');
+    console.log(tree);
+    assert.equal(tree.childern[0].tagName, "a");
+    assert.equal(tree.childern[0].childern.length, 0);
   });
 });
