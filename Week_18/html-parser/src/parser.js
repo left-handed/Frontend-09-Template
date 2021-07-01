@@ -367,7 +367,7 @@ function selfClosingStartTag(c) {
   }
 }
 
-function parseHTML(html) {
+export function parseHTML(html) {
   let state = data
   for (let c of html) {
     state = state(c)
@@ -375,5 +375,3 @@ function parseHTML(html) {
   state = state(EOF)
   return stack[0]
 }
-
-module.exports.parseHTML = parseHTML
